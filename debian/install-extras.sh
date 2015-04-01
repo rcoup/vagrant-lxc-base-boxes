@@ -6,16 +6,19 @@ source common/utils.sh
 
 info 'Installing extra packages and upgrading'
 
-debug 'Bringing container up'
+log 'Restarting container...'
+utils.lxc.stop
 utils.lxc.start
 
 # Sleep for a bit so that the container can get an IP
-log 'Sleeping for 5 seconds...'
-sleep 5
+log 'Sleeping for 10 seconds...'
+sleep 10
+utils.lxc.attach runlevel
+utils.lxc.attach ifconfig
 
 # TODO: Support for appending to this list from outside
 PACKAGES=(vim curl wget man-db bash-completion python-software-properties ca-certificates sudo)
-if [ $DISTRIBUTION = 'ubuntu' ]; then
+if [ $DISTRIBUTION = 'ubuntu' ] && [ $RELEASE != 'lucid' ]; then
   PACKAGES+=' software-properties-common'
 fi
 if [ $RELEASE != 'raring' ] && [ $RELEASE != 'saucy' ] && [ $RELEASE != 'trusty' ] ; then

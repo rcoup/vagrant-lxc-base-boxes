@@ -26,7 +26,7 @@ fi
 
 # If we got to this point, we need to create the container
 log "Creating container..."
-if [ $RELEASE = 'raring' ]; then
+if [ $RELEASE = 'raring' -o $RELEASE = 'lucid' ]; then
   utils.lxc.create -t ubuntu -- \
                    --release ${RELEASE} \
                    --arch ${ARCH}

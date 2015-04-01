@@ -29,5 +29,12 @@ if [ ${DISTRIBUTION} = 'debian' ]; then
   utils.lxc.attach /usr/sbin/update-rc.d -f mountnfs-bootclean.sh remove
 fi
 
+if [ $RELEASE = 'lucid' ]; then
+  if [ -L $rootfs/dev/shm ]; then
+    log "Fixing init config... (rm /dev/shm)"
+    rm ${ROOTFS}/dev/shm
+  fi
+fi
+
 utils.lxc.attach /usr/sbin/locale-gen ${LANG}
 utils.lxc.attach update-locale LANG=${LANG}
